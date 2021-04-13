@@ -3,7 +3,8 @@ from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, assemble,
 from qiskit.circuit.library.standard_gates import HGate, XGate, ZGate
 from qiskit.visualization import plot_histogram
 
-from math import sqrt
+from math import sqrt, pi
+
 
 import libraries.quantum_gates as qg
 import libraries.sat as sat
@@ -23,7 +24,7 @@ def grover_sat_solver(cnf, shots):
         qubits = list(range(0, qg.req_qubits_oracle(cnf)))
 
         # Get the number of iterations for this repetition.
-        iterations = round(sqrt(2 ** k))
+        iterations = round(pi/4*sqrt(2 ** k))
 
         # Define registers.
         qreg = QuantumRegister(len(qubits))
