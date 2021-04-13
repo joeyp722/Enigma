@@ -144,7 +144,7 @@ def cnf_oracle(cnf):
         gate = or_gate_x(cnf[j], len(literals)+j)
         qc.append(gate, qubits_clause)
 
-    # AND gate for phase kick-back.
+    # AND gate for phase kickback.
     gate = and_gate_z(ancilla_literals[:-1], ancillas[-1])
     qc.append(gate, ancillas)
 
