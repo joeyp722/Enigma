@@ -3,3 +3,15 @@ docs/*
 
 # Ignore pycache.
 *.pyc
+
+# Ignore setup.
+setup.py
+setup.cfg
+
+# Ignore license.
+LICENSE
+
+# Ignore build files.
+build/*
+dist/*
+enigma.egg-info/*
