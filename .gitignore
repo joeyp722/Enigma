@@ -1,0 +1,5 @@
+# Ignore docs directory.
+docs/*
+
+*.pyc
+*.py
