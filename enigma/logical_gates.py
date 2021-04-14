@@ -3,7 +3,7 @@
 # The inputs and outputs of gates are linked via the idea of the Tseytin
 # transformation and are written in 3-sat cnf form.
 
-import libraries.sat as sat
+import enigma.sat as sat
 
 # Logical OR gate.
 def or_gate(input, cnf):

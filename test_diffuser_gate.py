@@ -3,7 +3,7 @@
 from qiskit import QuantumCircuit, QuantumRegister, assemble, IBMQ, Aer, execute
 from qiskit.circuit.library.standard_gates import HGate, XGate, ZGate
 
-import libraries.quantum_gates as qg
+import enigma.quantum_gates as qg
 
 # Diffuser gate.
 target = [0, 1]

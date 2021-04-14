@@ -6,8 +6,8 @@ from qiskit.visualization import plot_histogram
 from math import sqrt, pi
 
 
-import libraries.quantum_gates as qg
-import libraries.sat as sat
+import enigma.quantum_gates as qg
+import enigma.sat as sat
 
 # Grover sat solver function.
 def grover_sat_solver(cnf, shots):

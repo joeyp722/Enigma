@@ -1,4 +1,4 @@
-import libraries.quantum_algorithms as qa
+import enigma.quantum_algorithms as qa
 
 # Defining cnf.
 # cnf = [[1, 2, 3], [1, 2, -3], [1, -2, 3], [1, -2, -3], [-1, 2, 3], [-1, 2, -3], [-1, -2, 3]]

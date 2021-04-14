@@ -1,5 +1,5 @@
-import libraries.sat as sat
-import libraries.logical_gates as lg
+import enigma.sat as sat
+import enigma.logical_gates as lg
 
 # Testing SAT solver.
 cnf = [[5],[-4,1],[-4,2],[4,-1,-2],[-5,4,3],[5,-4],[5,-3]]

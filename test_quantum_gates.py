@@ -1,7 +1,7 @@
 from qiskit import QuantumCircuit, QuantumRegister, assemble, IBMQ, Aer
 from qiskit.circuit.library.standard_gates import HGate, XGate, ZGate
 
-import libraries.quantum_gates as qg
+import enigma.quantum_gates as qg
 
 # 3 Controlled Hadamard
 gate = HGate().control(3)

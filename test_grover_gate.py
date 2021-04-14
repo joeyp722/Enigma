@@ -4,7 +4,7 @@ from qiskit import QuantumCircuit, QuantumRegister, assemble, IBMQ, Aer, BasicAe
 from qiskit.circuit.library.standard_gates import HGate, XGate, ZGate
 from qiskit.visualization import plot_histogram
 
-import libraries.quantum_gates as qg
+import enigma.quantum_gates as qg
 
 # Cnf Grover gate.
 # cnf = [[1, 2, 3], [-1, 2, -4], [1, 2, -5]]
