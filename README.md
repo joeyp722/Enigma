@@ -33,7 +33,7 @@ Polynomial time refers to polynomial time complexity, where time complexity refe
 
 Cook [2] showed that SAT problems are NP-Complete. Thus, according to the first criterion it is possible to see if a given input gives TRUE as the output, within polynomial time.
 
-Karp [3] Showed that many combinatorial problems can also be reduced to SAT problems, again within polynomial time. Thus, if one can solve SAT problems one can also solve other NP-Complete problems.
+Karp [3] showed that many combinatorial problems can also be reduced to SAT problems, again within polynomial time. Thus, if one can solve SAT problems one can also solve other NP-Complete problems.
 
 ## Oracle
 
@@ -58,7 +58,7 @@ Or it's subroutine counterpart:
 
 The required number of iterations for Grover's algorithm is pi/4 sqrt(N/k), where N is the number of entries given by the number of literals n, via N = 2^n. And where k is the number of solutions.
 
-However, if the number of solutions is unknown the number of iterations should be guessed. Fortunately, there is a algorithm [4] that does this with sacrificing the time complexity. This algorithm is used in the code. 
+However, if the number of solutions is unknown the number of iterations should be guessed. Fortunately, there is a algorithm [4] that does this with sacrificing the time complexity. This algorithm is used in the code.
 
 ## Further remarks
 
