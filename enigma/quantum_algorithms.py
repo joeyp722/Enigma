@@ -4,13 +4,17 @@ from qiskit.circuit.library.standard_gates import HGate, XGate, ZGate
 from qiskit.visualization import plot_histogram
 
 from math import sqrt, pi
+import random as rd
 
 
 import enigma.quantum_gates as qg
 import enigma.sat as sat
 
 # Grover sat solver function.
-def grover_sat_solver(cnf, shots):
+def grover_sat_solver(cnf, lamb, shots):
+
+    # Set iterations upper bound.
+    m = 1
 
     # Determine literals.
     literals = []
@@ -18,13 +22,13 @@ def grover_sat_solver(cnf, shots):
         literals = list(set(literals) | set([abs(i) for i in cnf[j]]))
 
     # Repeating the cnf grover solver for different number of iterations.
-    for k in range(len(literals)):
+    while True:
 
         # Get required qubits.
         qubits = list(range(0, qg.req_qubits_oracle(cnf)))
 
         # Get the number of iterations for this repetition.
-        iterations = round(pi/4*sqrt(2 ** k))
+        iterations = rd.randint(1, round(m))
 
         # Define registers.
         qreg = QuantumRegister(len(qubits))
@@ -56,7 +60,7 @@ def grover_sat_solver(cnf, shots):
         backend = BasicAer.get_backend('qasm_simulator')
 
         # Execute job.
-        job = execute(qc, backend, shots=shots)
+        job = execute(qc, backend, shots = shots)
 
         # Get counts form job.
         counts = job.result().get_counts()
@@ -80,5 +84,8 @@ def grover_sat_solver(cnf, shots):
             # Return the proposed solution if correct.
             if sat.verify(cnf, solution): return solution
 
-        # Return None if no solution was found.
-        return None
+            # Return None if no solution was found.
+            if m >= sqrt(2^len(literal_qubits)): return None
+
+            # Increment iterations upper bound.
+            m = min(lamb*m , sqrt(2^len(literal_qubits)))

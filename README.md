@@ -58,65 +58,7 @@ Or it's subroutine counterpart:
 
 The required number of iterations for Grover's algorithm is pi/4 sqrt(N/k), where N is the number of entries given by the number of literals n, via N = 2^n. And where k is the number of solutions.
 
-However, the number of solutions might be unknown. Fortunately this can be mitigated by running the algorithm pi/4 sqrt(N/2^i) number of times, where i is a integer and bounded by 0 <= i <= n. Note that it is possible that the algorithm should be repeated for multiple values of i.
-
-The idea is to "approximate"  pi/4 sqrt(N/k) with pi/4 sqrt(N/2^i), there is always a i for which the ratio of the two lies between 1/sqrt(2) and sqrt(2).
-
-In the Grover algorithm the number of iterations is proportional to rotational angle. This angle determines the coefficients of the "Good" and "Bad" states.
-
-> |Psi> = sin(t) |Good> + Cos(t) |Bad>
-
-Here the "Good" states are the states that correspond to solution that satisfies the cnf in question, while the "Bad" states correspond to non-solutions.
-
-The state vector of the algorithm starts out in a Hadamard state if solutions are very rare compared to non-solutions then the angle t will be very small. Here it is assumed that t approaches zero.
-
-In order to only measure "Good" states t has to be 90 degrees. Then the probability of measuring "Good" states will be 100%, since sin^2(90 deg) = 1.
-
-However, the angle is proportional to the number of iterations. But the number of iterations might deviate by a factor between 1/sqrt(2) and sqrt(2), this gives angles of 63.64 degrees and 127.28 degrees respectively. These angles give two lower bounds of measuring a "Good" state. The first angle gives a probability of sin^2(63.64 deg) = 80.29%, while the second gives a probability of sin^2(127.28 deg) = 63.11%. Thus, by executing a sufficient number of measurements these "Good" states should be detected.
-
-The number of iterations can be determined by summing up pi/4 sqrt(N/2^i) for all i's.
-
-> pi/4 sqrt(N) (1/sqrt(2^0) + 1/sqrt(2^1) + ... + 1/sqrt(2^n))
-
-However, the algorithm automatically stops when it has found a "Good" state,  this happens for a i where 2^i "approximates" k because of reasons stated above. Let's give this i the name j. Now the number of iterations is:
-
-> pi/4 sqrt(N) (1/sqrt(2^j) + ...  + 1/sqrt(2^n))
-
-The reason the front terms are missing is because it is favorable to start with the least number of iterations, which is given by to last term, and then the second to last terms, etcetera. Since N = 2^n the expression can be rewritten as:
-
-> pi/4 (sqrt(2)^0 + sqrt(2)^1 + ... + sqrt(2)^(n-j))
-
-note that here the order of terms is reversed. The below provides a upper bound for the expression above.
-
-> pi/4 (1+sqrt(2)) (2^0 + 2^1 + ... 2^ceil((n-j)/2) )
-
-where ceil is the ceiling function that rounds up. Here yet another upper bound is introduced:
-
-> pi/4 (1+sqrt(2)) 2^(ceil((n-j)/2)+1)
-
-To see how the bound between the two expressions above works think of binary counting:
-
-> 2^0 + 2^1 + 2^2 + ... + 2^q < 2^(q+1)
-
-Now back to this expression:
-
-> pi/4 (1+sqrt(2)) 2^(ceil((n-j)/2)+1)
-
-Here the time Complexity scales as:
-
-> O(2^(ceil((n-j)/2) )
-
-Here the ceiling function is hardly relevant, thus:
-
-> O( 2^(n-j)/2 ) = O( sqrt(2^n/n^j) )
-
-Plugging in N=2^n and remembering that 2^j "approximates" k the expression becomes approximately:
-
-> O( sqrt(N/k) )
-
-which is the same time complexity as if the number of solutions k was known. Although here the number of required iterations might defer by some constant factor.
-
-This part of the algorithm is inspired by although not exactly the same as the algorithm described in the paper [4].
+However, if the number of solutions is unknown the number of iterations should be guessed. Fortunately, there is a algorithm [4] that does this with sacrificing the time complexity. This algorithm is used in the code. 
 
 ## Further remarks
 
@@ -137,12 +79,10 @@ Short term plans:
 * Research how to organize the code better.
 * Organize the code better.
 * Research how jupyter notebooks work.
-* Research the [4] paper for optimizing how the code choses it's number of iterations.
 
 Intermediate term plans:
 
 * Make jupyter notebooks, that function as documentation.
-* Implementing optimization for how the code choses it's number of iterations.
 
 More long term plans:
 

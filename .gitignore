@@ -15,3 +15,6 @@ LICENSE
 build/*
 dist/*
 enigma.egg-info/*
+
+# Ignore backup files.
+*.bak
