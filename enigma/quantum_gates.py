@@ -134,8 +134,11 @@ def cnf_oracle(cnf):
     # OR gate for each clause.
     for j in range(len(cnf)):
 
-        # Get literal qubits.
-        qubits_clause = list(set([abs(i)-1 for i in cnf[j]]))
+        # Get clause literals.
+        literals_clause = list(set([abs(i) for i in cnf[j]]))
+
+        # Get clause literal qubits.
+        qubits_clause = list(set([literals_clause.index(i) for i in literals_clause]))
 
         # Get target qubit.
         qubits_clause.append(len(literals)+j)
@@ -151,8 +154,11 @@ def cnf_oracle(cnf):
     # OR gate for each clause. (reset)
     for j in range(len(cnf)):
 
-        # Get literal qubits.
-        qubits_clause = list(set([abs(i)-1 for i in cnf[j]]))
+        # Get clause literals.
+        literals_clause = list(set([abs(i) for i in cnf[j]]))
+
+        # Get clause literal qubits.
+        qubits_clause = list(set([literals_clause.index(i) for i in literals_clause]))
 
         # Get target qubit.
         qubits_clause.append(len(literals)+j)
@@ -188,7 +194,12 @@ def cnf_grover(cnf, iterations):
     # Determine target qubits for diffuser.
     target = []
     for j in range(len(cnf)):
-        target = list(set(target) | set([abs(i)-1 for i in cnf[j]]))
+
+        # Get clause literals.
+        literals_clause = list(set([abs(i) for i in cnf[j]]))
+
+        # Get target qubits.
+        target = list(set([literals_clause.index(i) for i in literals_clause]))
 
     # Define oracle and diffuser gates.
     cnf_oracle_gate = cnf_oracle(cnf)

@@ -36,21 +36,21 @@ def grover_sat_solver(cnf, lamb, shots):
 
         # Determine literal qubits.
         literal_qubits = []
-        for j in range(len(cnf)):
-            literal_qubits = list(set(literal_qubits) | set([abs(i) for i in cnf[j]]))
+        for j in range(len(literals)):
+            literal_qubits.append(j)
 
         # Hadamards for literal qubits.
         for i in range(len(literal_qubits)):
             qc.h(i)
 
-        # Bit flip for phase kick-back qubit.
+        # Bit flip for phase kickback qubit.
         qc.x(qubits[-1])
 
         # Grover gate for cnf.
         cnf_grover = qg.cnf_grover(cnf, iterations)
         qc.append(cnf_grover, qubits)
 
-        # Reset bit flip for phase kick-back qubit for ease of use of statevector
+        # Reset bit flip for phase kickback qubit for ease of use of statevector
         qc.x(qubits[-1])
 
         # # Measure all the qubits.
@@ -79,7 +79,7 @@ def grover_sat_solver(cnf, lamb, shots):
             for i in range(1,len(literals)+1):
 
                 # Converting the measurent string to solution array.
-                solution.append(i) if bool(int(measurement[-i])) else solution.append(-i)
+                solution.append(literals[i-1]) if bool(int(measurement[-i])) else solution.append(-literals[i-1])
 
             # Return the proposed solution if correct.
             if sat.verify(cnf, solution): return solution
