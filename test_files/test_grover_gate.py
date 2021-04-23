@@ -28,14 +28,14 @@ for j in range(len(cnf)):
 for i in range(len(literal_qubits)):
     qc.h(i)
 
-# Bit flip for phase kick-back qubit.
+# Bit flip for phase kickback qubit.
 qc.x(qubits[-1])
 
 # Grover gate for cnf.
 cnf_grover = qg.cnf_grover(cnf, iterations)
 qc.append(cnf_grover, qubits)
 
-# Reset bit flip for phase kick-back qubit for ease of use of statevector
+# Reset bit flip for phase kickback qubit for ease of use of statevector
 qc.x(qubits[-1])
 
 print(qc)
