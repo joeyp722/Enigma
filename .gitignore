@@ -1,12 +1,5 @@
-# Ignore docs directory.
-docs/*
-
 # Ignore pycache.
 *.pyc
-
-# Ignore setup.
-setup.py
-setup.cfg
 
 # Ignore license.
 LICENSE
@@ -18,3 +11,6 @@ enigma.egg-info/*
 
 # Ignore backup files.
 *.bak
+
+#Ignore ipynb checkpoints
+*.ipynb_checkpoints
