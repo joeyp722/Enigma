@@ -1,6 +1,10 @@
 # Defining several quantum gates.
 from qiskit import QuantumCircuit, QuantumRegister
-from qiskit.circuit.library.standard_gates import HGate, XGate, ZGate
+from qiskit.circuit.library.standard_gates import HGate, XGate, ZGate, rz
+
+from math import pi
+
+import enigma.sat as sat
 
 # Diffuser gate for Grover algorithm.
 def diffuser(target):
@@ -209,5 +213,42 @@ def cnf_grover(cnf, iterations):
     for i in range(0, iterations):
         qc.append(cnf_oracle_gate, qubits)
         qc.append(diffuser_gate, target)
+
+    return qc.to_gate()
+
+# Quantum Fourier Transformation (QFT), and inverse QFT.
+def qft(qubits, invert):
+
+    # Define quantum circuit.
+    qc = QuantumCircuit(len(qubits), name = 'QFT')
+
+    # Peform quantum circuit for Quantum Fourier Transform.
+    for i in range(len(qubits)):
+        qc.h(len(qubits)-1-i)
+
+        # Perform controlled phase gates.
+        for j in range(i+1, len(qubits)):
+            qc.cp(2*pi*(2 ** (i-j-1)), len(qubits)-1-j, len(qubits)-1-i)
+
+    # Invert QFT if applicable.
+    if invert: qc = qc.inverse()
+
+    return qc.to_gate()
+
+# Peforming addition with the qubit register in the Hadamard basis.
+def adder(qubits, number):
+
+    # Define quantum circuit.
+    qc = QuantumCircuit(len(qubits), name = '+' + str(number))
+
+    # Convert number to bit string.
+    bit_array = sat.decimal2binary(qubits, number)
+
+    # Peform quantum circuit for quantum adder.
+    for i in range(len(qubits)):
+
+        # Perform controlled phase gates.
+        for j in range(i+1):
+            if bit_array[j] == '1': qc.rz(2*pi*(2 ** (-i+j-1)), i)
 
     return qc.to_gate()
