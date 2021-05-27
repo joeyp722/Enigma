@@ -45,7 +45,6 @@ The heart of the algorithm lies in the functions:
 
 More long term plans:
 
-* Investigate the quantum adders, from the paper [2].
 * Research if quantum adders can be used as counters. To see how many clauses are activated, this way the number of required ancilla qubits scales logarithmically instead of linearly. Here phase kickback is provided if the right number of clauses are activated.
 * Research if it is useful to ignore some qubits from the counter, perhaps a phase kickback can also be provided if the number of activated clauses is greater or equal to some value. For example consider the counter literals x2 x1 x0. If x2 = True then the value of the counter is greater than or equal to 4. And also how this works for values other than powers of 2.
 * Investigate if this can be used to solve MAX-SAT and weighted MAX-SAT problems.
