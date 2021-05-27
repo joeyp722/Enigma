@@ -12,5 +12,8 @@ enigma.egg-info/*
 # Ignore backup files.
 *.bak
 
-#Ignore ipynb checkpoints
+#Ignore ipynb checkpoints.
 *.ipynb_checkpoints
+
+#Ignore images.
+images/*
