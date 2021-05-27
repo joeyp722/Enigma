@@ -21,7 +21,7 @@ In order to construct an oracle for a cnf. All the clauses have their own ancill
 
 Note that the bit-flips on the ancilla qubits have to be undone, thus the gates responsible for this are performed once more.
 
-To gain a better understanding i would suggest looking at:
+To gain a better understanding I would suggest looking at:
 
 > cnf_oracle.py
 
