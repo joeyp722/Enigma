@@ -98,7 +98,7 @@ print(qc)
 
 # Cnf oracle gate.
 cnf = [[1, 2, 3], [-1, 2, -4], [1, 2, -5]]
-qubits = list(range(0, qg.req_qubits_oracle(cnf)))
+qubits = list(range(0, qg.req_qubits_oracle(cnf, False, len(cnf)*[1])))
 
 qc = QuantumCircuit(len(qubits))
 cnf_oracle = qg.cnf_oracle(cnf)
@@ -108,7 +108,7 @@ print(qc)
 
 # Cnf Grover gate.
 cnf = [[1, 2, 3], [-1, 2, -4], [1, 2, -5]]
-qubits = list(range(0, qg.req_qubits_oracle(cnf)))
+qubits = list(range(0, qg.req_qubits_oracle(cnf, False, len(cnf)*[1])))
 iterations = 3
 
 qc = QuantumCircuit(len(qubits))

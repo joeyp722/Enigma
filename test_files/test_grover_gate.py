@@ -14,7 +14,7 @@ import enigma.quantum_gates as qg
 cnf = [[1, 2, 3], [1, 2, -3], [1, -2, 3], [1, -2, -3], [-1, 2, 3], [-1, 2, -3], [-1, -2, 3]]
 
 
-qubits = list(range(0, qg.req_qubits_oracle(cnf)))
+qubits = list(range(0, qg.req_qubits_oracle(cnf, False, len(cnf)*[1])))
 iterations = 1
 
 qc = QuantumCircuit(len(qubits))
