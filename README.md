@@ -46,9 +46,12 @@ The heart of the algorithm lies in the functions:
 More long term plans:
 
 * Add documentation.
+* Iteratively clean up code and documentation.
+* One of the faster classical SAT solver algorithms solves 3-SAT problems with a time-complexity that scales as O((4/3)^n) for n literals [2], which at first glance is faster than the O( sqrt(2^n)) time-complexity of Grover's algorithm. However, the algorithm discussed here is based on a probabilistic result. It is shown that a correct result is found with a probability scales as (t/(2*(t-1)))^n for a t-sat cnf. Thus, the number of solutions k scales (t/(2*(t-1)))^n 2^n, while the number of entries is N=2^n. The time complexity of Grover's algorithm with multiple solutions is O(sqrt(N/k)), thus in this case it becomes O(sqrt((t/(2*(t-1)))^n)). Or for a 3-sat cnf it is O(sqrt((4/3)^n)), which is O(1.15^n) compared to the O(1.33^n) found in the paper. Might this indicate a quadratic or almost quadratic speed up? Want to look into this deeper.
+* Also want to see if symmetries lead to a more favorable time-complexity, since symmetries often give rise to multiple solutions. Because otherwise symmetry is not preserved. 
 
 ## References
 
 [1]: Grover, L. K. (1996, July). A fast quantum mechanical algorithm for database search. In Proceedings of the twenty-eighth annual ACM symposium on Theory of computing (pp. 212-219).
 
-[2]: Draper, T. G. (2000). Addition on a quantum computer. arXiv preprint quant-ph/0008033.
+[2]: Schöning, U. (2002). A probabilistic algorithm for k-SAT based on limited local search and restart. Algorithmica, 32(4), 615-623.
