@@ -29,10 +29,10 @@ def get_variables(cnf):
     x = literals
 
     # Get y helper variables.
-    y = list(combinations(literals, 2))
+    y = [tuple(sorted(t)) for t in combinations(literals, 2)]
 
     # Get z helper variables.
-    z = list(combinations(literals, 3))
+    z = [tuple(sorted(t)) for t in combinations(literals, 3)]
 
     return x, y, z
 
@@ -70,7 +70,7 @@ def get_points(clause):
 
     return points
 
-# Get exquation from points.
+# Get equation from points.
 def get_equation(points):
 
     # Add constants to points.
@@ -85,31 +85,165 @@ def get_equation(points):
     # Calculate coefficients of equation.
     equation, params = A.gauss_jordan_solve(b)
 
-    # Normalize the coefficients
+    # Normalize the coefficients in the equation.
     equation = [coeff/params[0] for coeff in equation]
 
     return equation
 
-######################################################################
+# Returns matrix with the
+def get_matrices(cnf):
 
-# Under construction.
-def get_matrix(cnf):
-
+    # Get variables and combinations of variables.
     variables = get_variables(cnf)
     variables_unpack = list(set(variables[0]) | set(variables[1]) | set(variables[2]))
 
-    print(variables_unpack)
+    # Define coefficient matrix and constant matrix.
+    coeff_matrix = np.zeros((len(cnf), len(variables_unpack)))
+    const_matrix = np.zeros(len(cnf))
 
-    equations = []
-
+    # Get matrix row forevery clause.
     for clause in cnf:
+
+        # Get necessary data.
         points = get_points(clause)
         equation = get_equation(points)
         variables_clause = get_variables([clause])
         variables_clause_unpack = list(set(variables_clause[0]) | set(variables_clause[1]) | set(variables_clause[2]))
 
+        # Get coefficients into matrix row for x variables.
+        coeff_matrix[cnf.index(clause), variables_unpack.index(variables_clause[0][0])] = equation[0]
+        coeff_matrix[cnf.index(clause), variables_unpack.index(variables_clause[0][1])] = equation[1]
+        coeff_matrix[cnf.index(clause), variables_unpack.index(variables_clause[0][2])] = equation[2]
 
-        print(equation)
-        print(variables_clause)
-        print(variables)
-        print(variables_unpack.index(variables_clause_unpack[6]))
+        # Get coefficients into matrix row for y helper variables.
+        coeff_matrix[cnf.index(clause), variables_unpack.index(variables_clause[1][0])] = equation[3]
+        coeff_matrix[cnf.index(clause), variables_unpack.index(variables_clause[1][1])] = equation[4]
+        coeff_matrix[cnf.index(clause), variables_unpack.index(variables_clause[1][2])] = equation[5]
+
+        # Get coefficients into matrix row for z helper variables.
+        coeff_matrix[cnf.index(clause), variables_unpack.index(variables_clause[2][0])] = equation[6]
+
+        # Get constant into matrix row.
+        const_matrix[cnf.index(clause)] = -equation[-1]
+
+    return coeff_matrix, const_matrix
+
+# Returns unique solution if possible. Otherwise it returns None or "Multiple" when there are no solutions or multipe solutions respectively.
+def get_unique_solution(coeff_matrix, const_matrix, variables):
+
+    # Unpack variables array.
+    variables_unpack = list(set(variables[0]) | set(variables[1]) | set(variables[2]))
+
+    # Construct coefficients matrix.
+    A = sp.Matrix(coeff_matrix)
+
+    # Construct constants matrix.
+    b = sp.Matrix(const_matrix)
+
+    # Determine if the matrix has a unique solution, multipe solutions or no solution.
+    try:
+        # Solving the matrix.
+        solution_matrix, params = A.gauss_jordan_solve(b)
+
+        # Check if the solution is unique.
+        if not params:
+
+            # Define solution array.
+            solution = []
+
+            # Loop through every variable that reppressents a literal.
+            for variable in variables[0]:
+
+                # Get assignment for literal from the solution_matrix.
+                solution.append(int(variable*solution_matrix[variables_unpack.index(variable)]))
+
+            # Return unique solution.
+            return solution
+
+        # Return "Multiple" when there are multiple solutions.
+        return "Multiple"
+
+    # Return None when the exception "Linear system has no solution" is raised.
+    except ValueError as e: return None
+
+# Add rows to the matrix representing constraints.
+def add_constraints(coeff_matrix, const_matrix, variables, constraints_x):
+
+    # Unpack variables array.
+    variables_unpack = list(set(variables[0]) | set(variables[1]) | set(variables[2]))
+
+    # Get y helper constraints.
+    constraints_y = list(set(combinations([abs(i) for i in constraints_x], 2)) & set(combinations(constraints_x, 2)))
+    constraints_y = [tuple(sorted(t)) for t in constraints_y]
+
+    # Get z helper variables.
+    constraints_z = list(set(combinations([abs(i) for i in constraints_x], 3)) & set(combinations(constraints_x, 3)))
+    constraints_z = [tuple(sorted(t)) for t in constraints_z]
+
+    # Merging y and z helper constraints.
+    constraints_helper = list(set(constraints_y) | set(constraints_z))
+
+    # Add matrix rows based on constraints_x.
+    for constraint in constraints_x:
+
+        # Create and add row.
+        row = np.zeros(len(variables_unpack))
+        row[variables_unpack.index(abs(constraint))] = constraint/abs(constraint)
+        coeff_matrix = np.vstack([coeff_matrix,row])
+        const_matrix = np.hstack([const_matrix,1])
+
+    # Add matrix rows based on constraints_helper.
+    for constraint in constraints_helper:
+
+        # Create and add row.
+        row = np.zeros(len(variables_unpack))
+        row[variables_unpack.index(constraint)] = 1
+        coeff_matrix = np.vstack([coeff_matrix,row])
+        const_matrix = np.hstack([const_matrix,1])
+
+    return coeff_matrix, const_matrix
+
+# Get solution to cnf via gaussian elimination.
+def get_solution(cnf):
+
+    # Get all variables and helper variables.
+    variables = get_variables(cnf)
+
+    # Atempt to calculate unique solution.
+    coeff_matrix, const_matrix = get_matrices(cnf)
+    solution_unique = get_unique_solution(coeff_matrix, const_matrix, variables)
+
+    # If unsatisfiable or a unique solution exists return the answer.
+    if solution_unique == None or solution_unique != "Multiple":  return solution_unique
+
+    # Define constraints array.
+    constraints_x = []
+
+    # Solving the cnf by applying constraints.
+    for variable_x in variables[0]:
+
+        # Add x constraint.
+        constraints_x.append(variable_x)
+
+        # Get solution
+        coeff_matrix, const_matrix = get_matrices(cnf)
+        coeff_matrix, const_matrix = add_constraints(coeff_matrix, const_matrix, variables, constraints_x)
+        solution_unique = get_unique_solution(coeff_matrix, const_matrix, variables)
+
+        # If unsatisfiable change constraint_x.
+        if solution_unique == None:
+
+            # Changing x constraint.
+            constraints_x[-1] = -constraints_x[-1]
+
+            # Get solution
+            coeff_matrix, const_matrix = get_matrices(cnf)
+            coeff_matrix, const_matrix = add_constraints(coeff_matrix, const_matrix, variables, constraints_x)
+            solution_unique = get_unique_solution(coeff_matrix, const_matrix, variables)
+
+            # If still unsatisfiable stop the algorithm.
+            if solution_unique == None: return None
+
+    # When the algorithm is done and satisfiable the x constraints are equal to a solution.
+    solution = constraints_x
+    return solution

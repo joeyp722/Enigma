@@ -1,5 +1,6 @@
 import pycosat
 import numpy as np
+import random
 
 # Verify potential solution to cnf with true of false.
 def verify(cnf, solution):
@@ -74,3 +75,23 @@ def get_ancilla_adder_clause(ancilla_literals, compare_string):
             array.append(-1*ancilla_literals[i])
 
     return array
+
+# Returns random cnf based on the number of literals, clauses and number of literals with the clause.
+def get_random_cnf(number_literals, number_clauses, number_literals_within_clause):
+
+    # Define literals and negations.
+    literals = range(1,number_literals+1)
+    negations = [2*(i % 2)-1 for i in range(1,2*number_literals_within_clause+1)]
+
+    # Define cnf empty array.
+    cnf = []
+
+    # printing n elements from list
+    for i in range(number_clauses):
+
+        # Construct and add clause.
+        clause_literals = random.sample(literals, number_literals_within_clause)
+        clause_negations = random.sample(negations, number_literals_within_clause)
+        cnf.append(list([clause_literals[i]*clause_negations[i] for i in range(number_literals_within_clause)]))
+
+    return cnf
