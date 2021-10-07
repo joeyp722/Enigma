@@ -173,15 +173,22 @@ def add_constraints(coeff_matrix, const_matrix, variables, constraints_x):
     variables_unpack = list(set(variables[0]) | set(variables[1]) | set(variables[2]))
 
     # Get y helper constraints.
-    constraints_y = list(set(combinations([abs(i) for i in constraints_x], 2)) & set(combinations(constraints_x, 2)))
-    constraints_y = [tuple(sorted(t)) for t in constraints_y]
+    constraints_y_abs = combinations([abs(i) for i in constraints_x], 2) # Get absolute values.
+    constraints_y_abs = [tuple(sorted(t)) for t in constraints_y_abs]
+
+    constraints_y_pos = list(set(constraints_y_abs) & set(combinations(constraints_x, 2))) # Get list where tuples only contain positive values.
+    constraints_y_pos = [tuple(sorted(t)) for t in constraints_y_pos]
 
     # Get z helper variables.
-    constraints_z = list(set(combinations([abs(i) for i in constraints_x], 3)) & set(combinations(constraints_x, 3)))
-    constraints_z = [tuple(sorted(t)) for t in constraints_z]
+    constraints_z_abs = combinations([abs(i) for i in constraints_x], 3) # Get absolute values.
+    constraints_z_abs = [tuple(sorted(t)) for t in constraints_z_abs]
+
+    constraints_z_pos = list(set(constraints_z_abs) & set(combinations(constraints_x, 3))) # Get list where tuples only contain positive values.
+    constraints_z_pos = [tuple(sorted(t)) for t in constraints_z_pos]
 
     # Merging y and z helper constraints.
-    constraints_helper = list(set(constraints_y) | set(constraints_z))
+    constraints_helper_abs = list(set(constraints_y_abs) | set(constraints_z_abs))
+    constraints_helper_pos = list(set(constraints_y_pos) | set(constraints_z_pos))
 
     # Add matrix rows based on constraints_x.
     for constraint in constraints_x:
@@ -193,11 +200,12 @@ def add_constraints(coeff_matrix, const_matrix, variables, constraints_x):
         const_matrix = np.hstack([const_matrix,1])
 
     # Add matrix rows based on constraints_helper.
-    for constraint in constraints_helper:
+    for constraint in constraints_helper_abs:
 
         # Create and add row.
         row = np.zeros(len(variables_unpack))
-        row[variables_unpack.index(constraint)] = 1
+        if constraint in constraints_helper_pos: row[variables_unpack.index(constraint)] = 1
+        else: row[variables_unpack.index(constraint)] = -1
         coeff_matrix = np.vstack([coeff_matrix,row])
         const_matrix = np.hstack([const_matrix,1])
 

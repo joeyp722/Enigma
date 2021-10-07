@@ -50,9 +50,9 @@ More long term plans:
 * Iteratively clean up code and documentation.
 * One of the faster classical SAT solver algorithms solves 3-SAT problems with a time-complexity that scales as O((4/3)^n) for n literals [2], which is indeed faster for 3-SAT problems. The reason for this is that it takes advantage of the structure in the CNF. However, according to the paper the time-complexity, O((2(k-1)/k)^n), gets worse when the value of k gets larger. Here k refers to the k in k-SAT. Because Grover's algorithm has a time-complexity of O(sqrt(2^n)) it might be faster for larger values of k. Also consider that k-SAT can be converted to 3-SAT, this however usually introduces more literals, thus is not necessarily faster. All this seems to indicate some threshold of k that separates the advantages of this classical algorithm and Grover's algorithm. The paper assumes the CNF has one solution.    
 * Also want to see if symmetries lead to a more favorable time-complexity, since symmetries could give rise to multiple solutions. Because in some cases different solutions could arise from symmetric transformations. For example a literal permutation between x0 and x1 gives one extra solution for 0100 that is 1000, where x0 x1 x2 x3. But not for 1100, since it remains the same, being 1100.
-* Does this work?. Fails for random 3-sat cnf's. Not sure if it can be fixed or not. Seems to fail when number of clauses increases.
+* Does this work? Fails for random 3-sat cnf's. Not sure if it can be fixed or not. Seems to fail when number of clauses increases.
 
-Proposition for new classical algorithm that converts Boolean 3-SAT formulas to a set of linear equations, that are then solved by Gaussian elimination. The solutions to the linear equations should yield the solution to the 3-SAT problem.
+* Proposition for new classical algorithm that converts Boolean 3-SAT formulas to a set of linear equations, that are then solved by Gaussian elimination. The solutions to the linear equations should yield the solution to the 3-SAT problem.
 
 See this doc file for more information:
 

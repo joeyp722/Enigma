@@ -320,4 +320,5 @@ solution = gs.get_solution(cnf)
 
 print(cnf)
 print(solution)
-print(sat.verify(cnf, solution))
+if solution != sat.verify(cnf, solution): print(sat.verify(cnf, solution))
+print(sat.solve(cnf))
