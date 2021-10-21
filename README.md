@@ -75,7 +75,7 @@ And the test file and library that are still under construction:
 * By measuring the qubit that represents the divide between the upper and lower part of the range first. It can decided if the energy is in the upper or lower part of the range. The upper and lower parts can again be divided into their own upper and lower parts (quadrants), this is represented by the output second qubit. Thus, by running the algorithm once one can decide in what half of the range the energy lies. By running the algorithm again but by measuring the second output qubit instead, one can decide in what quadrant the energy lies. So by induction it performs like a binary search.
 * In order to combine multiple constraints one might use quantum AND and OR gates. The input qubits for these gates are the output qubits of the verifiers.
 * The effect of different verifiers might also be compared with each other. When a extra qubit is introduced to activate verifier 1 when in the |0> state and verifier 2 when in the |1> state the quadratic speed up provided by Grover's algorithm might be utilized, since the introduced qubit is part of the Hilbert space which the Oracle acts on. Note that more verifiers might be added as well. However, they all must use the same transformation M. Thus, this feature might be used to compare Hamiltonian's that have minor differences among them.
-* Can all the Propositions above that utilize Grover's algorithm, also be performed by the Quantum amplitude amplification [4] algorithm?
+* Can all the Propositions above, that utilize Grover's algorithm, also be performed by the Quantum amplitude amplification [4] algorithm?
 
 ## References
 
