@@ -50,7 +50,7 @@ More long term plans:
 * Iteratively clean up code and documentation.
 * One of the faster classical SAT solver algorithms solves 3-SAT problems with a time-complexity that scales as O((4/3)^n) for n literals [2], which is indeed faster for 3-SAT problems. The reason for this is that it takes advantage of the structure in the CNF. However, according to the paper the time-complexity, O((2(k-1)/k)^n), gets worse when the value of k gets larger. Here k refers to the k in k-SAT. Because Grover's algorithm has a time-complexity of O(sqrt(2^n)) it might be faster for larger values of k. Also consider that k-SAT can be converted to 3-SAT, this however usually introduces more literals, thus is not necessarily faster. All this seems to indicate some threshold of k that separates the advantages of this classical algorithm and Grover's algorithm. The paper assumes the CNF has one solution.    
 * Also want to see if symmetries lead to a more favorable time-complexity, since symmetries could give rise to multiple solutions. Because in some cases different solutions could arise from symmetric transformations. For example a literal permutation between x0 and x1 gives one extra solution for 0100 that is 1000, where x0 x1 x2 x3. But not for 1100, since it remains the same, being 1100.
-* Does this work? Fails for random 3-sat cnf's. Not sure if it can be fixed or not. Seems to fail when number of clauses increases.
+* Does this work? Fails for random 3-sat cnf's. Not sure if it can be fixed or not. Seems to fail when number of clauses increases. Probably a theoretical error. Suspect it only works for 2-SAT problems, and that 3-SAT problems can only be represented by non-linear equations.
 
 * Proposition for new classical algorithm that converts Boolean 3-SAT formulas to a set of linear equations, that are then solved by Gaussian elimination. The solutions to the linear equations should yield the solution to the 3-SAT problem.
 
@@ -75,6 +75,7 @@ And the test file and library that are still under construction:
 * By measuring the qubit that represents the divide between the upper and lower part of the range first. It can decided if the energy is in the upper or lower part of the range. The upper and lower parts can again be divided into their own upper and lower parts (quadrants), this is represented by the output second qubit. Thus, by running the algorithm once one can decide in what half of the range the energy lies. By running the algorithm again but by measuring the second output qubit instead, one can decide in what quadrant the energy lies. So by induction it performs like a binary search.
 * In order to combine multiple constraints one might use quantum AND and OR gates. The input qubits for these gates are the output qubits of the verifiers.
 * The effect of different verifiers might also be compared with each other. When a extra qubit is introduced to activate verifier 1 when in the |0> state and verifier 2 when in the |1> state the quadratic speed up provided by Grover's algorithm might be utilized, since the introduced qubit is part of the Hilbert space which the Oracle acts on. Note that more verifiers might be added as well. However, they all must use the same transformation M. Thus, this feature might be used to compare Hamiltonian's that have minor differences among them.
+* Can all the Propositions above, that utilize Grover's algorithm, also be performed by the Quantum amplitude amplification [4] algorithm?
 
 ## References
 
@@ -83,3 +84,5 @@ And the test file and library that are still under construction:
 [2]: Schöning, U. (2002). A probabilistic algorithm for k-SAT based on limited local search and restart. Algorithmica, 32(4), 615-623.
 
 [3]: Bookatz, A. D. (2012). QMA-complete problems. arXiv preprint arXiv:1212.6312.
+
+[4]: Brassard, G., Hoyer, P., Mosca, M., & Tapp, A. (2002). Quantum amplitude amplification and estimation. Contemporary Mathematics, 305, 53-74.
