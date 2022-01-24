@@ -15,11 +15,11 @@ Documentation can be found in the docs directory, that contains documentation on
 
 ## Oracle
 
-The oracle gives all satisfying states a phase-flip, the coefficients are multiplied by -1.
+The oracle gives all satisfying states a phase-flip, thus the coefficients are multiplied by -1.
 
-The oracle is always succeeded by a diffuser, together they can be repeated multiple times, depending on the number of iterations.
+The oracle is always succeeded by a diffuser, together they can be repeated multiple times depending on the number of iterations.
 
-Each clause in the cnf has it's own ancilla qubit, that is bit-flipped when the clause is TRUE. When all clauses are TRUE a phase-flip is performed on a new ancilla, that provides a phase kickback.
+Each clause in the cnf has it's own ancilla qubit, which is bit-flipped when the clause is TRUE. When all clauses are TRUE a phase-flip is performed on a new ancilla qubit, this provides a phase kickback.
 
 Note that the bit-flips on the ancilla qubits have to be reversed, thus these gates are performed again.
 
