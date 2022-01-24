@@ -8,7 +8,6 @@ print("Initializing...")
 # Variables
 qubits = 7
 
-
 # Define statevector simulator
 print('Get statevector simulator...')
 svsim = Aer.get_backend('statevector_simulator')
