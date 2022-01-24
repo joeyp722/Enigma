@@ -19,7 +19,7 @@ The oracle gives all satisfying states a phase-flip, thus the coefficients are m
 
 # How the Oracle works
 
-Each clause in the cnf has it's own ancilla qubit, which is bit-flipped when the clause is TRUE. When all clauses are TRUE a phase-flip is performed on a new ancilla qubit, this provides a phase kickback. Finally the bit-flips are reversed again, so that the ancillas can be reused.
+Each clause in the cnf has it's own ancilla qubit, which is bit-flipped when the clause is TRUE. When all clauses are TRUE a phase-flip is performed on a new ancilla qubit, this provides a phase kickback. Finally the bit-flips are reversed again, so that the ancilla qubits can be reused.
 
 To gain a better understanding I would suggest looking at:
 
