@@ -1,7 +1,7 @@
 # Grover SAT solver
-The aim of this project is to build a quantum algorithm that can solve SAT problems. SAT refers to satisfiability of a Boolean formula, meaning that there exists a input where the output of the formula is TRUE.
+The aim of this project is to build a quantum algorithm, that solves SAT problems. SAT refers to the satisfiability of Boolean formulas, which means that there is a input where the formula returns TRUE.
 
-Grover refers to Grover's algorithm from quantum computing [1]. This algorithm uses an oracle to find the states it is looking for, hence the oracle must be representative of the Boolean formula to find a matching input.
+"Grover" refers to Grover's algorithm, which is a well known quantum algorithm [1]. This algorithm possesses a oracle, that is used to find the states that satisfy the formula.
 
 ## Documentation
 
@@ -15,13 +15,13 @@ Documentation can be found in the docs directory, that contains documentation on
 
 ## Oracle
 
-In order for the oracle to work all the states of interest must receive a phase-flip, meaning that the coefficient in the state vector is multiplied with -1.
+The oracle gives all satisfying states a phase-flip, the coefficients are multiplied by -1.
 
-The oracle is always succeeded by a diffuser. This part of the algorithm can be repeated multiple times depending on the number of iterations.
+The oracle is always succeeded by a diffuser, together they can be repeated multiple times, depending on the number of iterations.
 
-In order to construct an oracle for a cnf. All the clauses have their own ancilla qubit on which a bit-flip is performed if the clause is TRUE. If a clauses are true then a phase-flip is performed via a quantum AND gate, again via a new ancillary qubit that provides a phase kickback.
+Each clause in the cnf has it's own ancilla qubit, that is bit-flipped when the clause is TRUE. When all clauses are TRUE a phase-flip is performed on a new ancilla, that provides a phase kickback.
 
-Note that the bit-flips on the ancilla qubits have to be undone, thus the gates responsible for this are performed once more.
+Note that the bit-flips on the ancilla qubits have to be reversed, thus these gates are performed again.
 
 To gain a better understanding I would suggest looking at:
 
@@ -33,12 +33,13 @@ Or it's subroutine counterpart:
 
 ## Further remarks
 
-I hope the idea became clear even though the documentation is perhaps rather primitive. The two main take away points are:
+I hope the idea became clear even though the documentation is perhaps rather primitive.
+
+In short:
 
 * The oracle works via phase kickback from ancilla qubits.
-* Not knowing how many solutions there are doesn't matter for the time complexity. It is still O( sqrt(N/k) )
 
-The heart of the algorithm lies in the functions:
+The heart of the algorithm lies in these functions:
 
 * enigma.quantum_gates.cnf_oracle
 * enigma.quantum_algorithms.grover_sat_solver
