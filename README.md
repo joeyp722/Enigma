@@ -10,7 +10,7 @@ Documentation can be found in the docs directory, that contains documentation on
 * Prerequisites
 * Introduction to SAT
 * Grover sat solver
-* Proposition for Gaussian elimination SAT solver algorithm (doesn't work)
+* Proposition for Gaussian elimination SAT solver algorithm (removed). Non-linear functions are needed because linear functions cannot always span through all the points. The intuition is that it is not always possible to draw to straight line through three points.
 * Ideas
 
 ## Oracle
