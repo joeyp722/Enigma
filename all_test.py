@@ -1,5 +1,7 @@
+# Main test script that performs unittest on all the test files.
 import unittest
 
+# Define which test scripts are executed.
 def load_tests(loader, tests, pattern):
 
     suite = unittest.TestSuite()
@@ -8,5 +10,6 @@ def load_tests(loader, tests, pattern):
             suite.addTests(test_suite)
     return suite
 
+# Execute the tests defined above.
 if __name__ == '__main__':
     unittest.main()
